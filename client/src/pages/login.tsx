@@ -6,18 +6,18 @@ import { useAuth } from '@/lib/useAuth';
 const LoginPage: React.FC = () => {
   const { userProfile, loading } = useAuth();
   const [_, setLocation] = useLocation();
-  
+
   // Redirect to main page if already logged in
   React.useEffect(() => {
     if (userProfile && !loading) {
       setLocation('/');
     }
   }, [userProfile, loading, setLocation]);
-  
+
   // Show loading indicator while checking auth status
   if (loading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-netgray-100">
+      <div className="h-screen flex items-center justify-center bg-white">
         <div className="text-center">
           <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
           <p className="text-netgray-600">Loading...</p>
@@ -25,9 +25,9 @@ const LoginPage: React.FC = () => {
       </div>
     );
   }
-  
+
   return (
-    <div className="h-screen flex items-center justify-center bg-netgray-100 p-4">
+    <div className="h-screen flex items-center justify-center bg-white p-4">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
         <div className="flex justify-center mb-6">
           <div className="text-center">
@@ -39,9 +39,9 @@ const LoginPage: React.FC = () => {
             <h1 className="text-2xl font-bold text-primary-dark">NetChat</h1>
           </div>
         </div>
-        
+
         <LoginForm />
-        
+
         <div className="text-center mt-6">
           <p className="text-netgray-500">
             Don't have an account? <Link href="/register" className="text-primary hover:underline">Register</Link>
