@@ -8,6 +8,7 @@ import ProfileView from '@/components/ProfileView';
 import StatusViewer from '@/components/StatusViewer';
 import CreateGroupModal from '@/components/CreateGroupModal';
 import CreateStatusModal from '@/components/CreateStatusModal';
+import Footer from '@/components/Footer';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { ChatItem, Status } from '@/types';
 
@@ -238,7 +239,10 @@ const MainPage: React.FC = () => {
         
         {/* Welcome Screen (shown when no chat is selected) */}
         {!showChatView && !showProfile && !showStatusViewer && (
-          <WelcomeScreen />
+          <div className="flex flex-col flex-1">
+            <WelcomeScreen />
+            <Footer />
+          </div>
         )}
         
         {/* Profile Page */}
@@ -266,6 +270,13 @@ const MainPage: React.FC = () => {
           </div>
         )}
       </div>
+      
+      {/* Footer - only shown on desktop and when no specific view is active */}
+      {!showChatView && !showProfile && !showStatusViewer && window.innerWidth >= 768 && (
+        <div className="hidden md:block">
+          <Footer />
+        </div>
+      )}
       
       {/* Modals */}
       <CreateGroupModal

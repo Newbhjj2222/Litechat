@@ -34,13 +34,13 @@ const UserList: React.FC<UserListProps> = ({
   const [selected, setSelected] = useState<number[]>(selectedUserIds);
 
   // Fetch users
-  const { data: users = [], isLoading } = useQuery({
+  const { data: users = [], isLoading } = useQuery<User[]>({
     queryKey: ['/api/users'],
     staleTime: 1000 * 60, // 1 minute
   });
 
   // Filter users based on search and exclude current user if needed
-  const filteredUsers = users
+  const filteredUsers = (users as User[])
     .filter((user: User) => {
       // Exclude current user if flag is true
       if (excludeCurrentUser && userProfile && user.id === userProfile.id) {
@@ -92,7 +92,7 @@ const UserList: React.FC<UserListProps> = ({
   };
 
   const handleConfirm = () => {
-    const selectedUsers = users.filter((user: User) => selected.includes(user.id));
+    const selectedUsers = (users as User[]).filter((user: User) => selected.includes(user.id));
     onSelectUsers(selectedUsers);
   };
 
@@ -162,7 +162,7 @@ const UserList: React.FC<UserListProps> = ({
                   checked={selected.includes(user.id)}
                   className="mr-2"
                   tabIndex={-1}
-                  disabled={!selected.includes(user.id) && limit && selected.length >= limit}
+                  disabled={Boolean(!selected.includes(user.id) && limit && selected.length >= limit)}
                 />
               )}
               
