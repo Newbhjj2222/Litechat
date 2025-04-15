@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/lib/useAuth';
+import { uploadProfileImage } from '@/lib/firebase';
 import { useLocation } from 'wouter';
 
 // Define the register form schema
@@ -49,22 +50,49 @@ const RegisterForm = () => {
   
   const onSubmit = async (data: RegisterFormValues) => {
     try {
-      await registerUser(data.email, data.password, data.username);
+      console.log('Attempting registration for:', data.email);
+      const user = await registerUser(data.email, data.password, data.username);
       
-      // TODO: Handle profile picture upload
-      // if (profileFile) {
-      //   await uploadProfilePicture(profileFile);
-      // }
+      // Handle profile picture upload
+      if (profileFile && user) {
+        try {
+          await uploadProfileImage(user.uid, profileFile);
+          console.log('Profile picture uploaded successfully');
+        } catch (uploadError) {
+          console.error('Error uploading profile picture:', uploadError);
+          // Continue with registration even if picture upload fails
+        }
+      }
       
       toast({
         title: 'Registration successful',
         description: 'Welcome to NetChat!',
       });
-      setLocation('/');
+      
+      // Short delay to allow auth state to propagate
+      setTimeout(() => {
+        setLocation('/');
+      }, 500);
     } catch (error: any) {
+      console.error('Registration error:', error);
+      let errorMessage = 'An error occurred during registration';
+      
+      // Handle specific Firebase auth errors
+      if (error.code === 'auth/email-already-in-use') {
+        errorMessage = 'This email is already registered. Please use a different email.';
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = 'Invalid email address format.';
+      } else if (error.code === 'auth/weak-password') {
+        errorMessage = 'Password is too weak. Please use a stronger password.';
+      } else if (error.code === 'auth/network-request-failed') {
+        errorMessage = 'Network error. Please check your connection.';
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
       toast({
         title: 'Registration failed',
-        description: error.message || 'An error occurred during registration',
+        description: errorMessage,
         variant: 'destructive',
       });
     }

@@ -11,22 +11,29 @@ export const useWebSocket = () => {
   useEffect(() => {
     // Initialize WebSocket when user is available
     if (userProfile?.id) {
-      initSocket(userProfile.id);
-      
-      // Register status callback
-      const unsubscribeStatus = onSocketStatus(setIsConnected);
-      
-      // Register message callback
-      const unsubscribeMessage = onSocketMessage((message) => {
-        setMessages(prev => [...prev, message]);
-      });
-      
-      // Cleanup on unmount
-      return () => {
-        unsubscribeStatus();
-        unsubscribeMessage();
-        closeSocket();
-      };
+      console.log('Initializing WebSocket with userId:', userProfile.id);
+      try {
+        initSocket(userProfile.id);
+        
+        // Register status callback
+        const unsubscribeStatus = onSocketStatus(setIsConnected);
+        
+        // Register message callback
+        const unsubscribeMessage = onSocketMessage((message) => {
+          setMessages(prev => [...prev, message]);
+        });
+        
+        // Cleanup on unmount
+        return () => {
+          unsubscribeStatus();
+          unsubscribeMessage();
+          closeSocket();
+        };
+      } catch (error) {
+        console.error('Error initializing WebSocket:', error);
+      }
+    } else {
+      console.log('User not logged in, WebSocket not initialized');
     }
   }, [userProfile?.id]);
   
