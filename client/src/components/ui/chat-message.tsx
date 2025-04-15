@@ -36,7 +36,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
         )}
         
         {contentType === 'text' && (
-          <p className="text-gray-800">{content}</p>
+          <p className="text-[#303030] text-[14px] leading-tight">{content}</p>
         )}
         
         {contentType === 'image' && (
@@ -47,8 +47,8 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
         
         {contentType === 'file' && (
           <div className="flex items-center p-2 bg-white/90 rounded border border-gray-200">
-            <div className="mr-2 text-blue-500">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <div className="mr-2 text-[#34B7F1]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                 <polyline points="14 2 14 8 20 8"></polyline>
                 <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -56,20 +56,20 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
                 <polyline points="10 9 9 9 8 9"></polyline>
               </svg>
             </div>
-            <a href={content} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 underline">
+            <a href={content} target="_blank" rel="noopener noreferrer" className="text-xs md:text-sm text-[#34B7F1] hover:underline">
               {content.split('/').pop()}
             </a>
           </div>
         )}
         
-        <div className="flex justify-end items-center space-x-1 -mb-0.5 -mr-0.5 mt-1">
-          <span className="text-[10px] text-gray-500 leading-none">
+        <div className="flex justify-end items-center space-x-1 -mb-1 -mr-0.5 mt-0.5">
+          <span className="text-[10px] text-[#667781] leading-none">
             {format(timestamp, 'h:mm a')}
           </span>
           {isOwn && (
             isRead 
               ? <CheckCheck className="h-3 w-3 text-[#4fc3f7]" /> 
-              : <Check className="h-3 w-3 text-gray-400" />
+              : <Check className="h-3 w-3 text-[#667781]" />
           )}
         </div>
       </div>
