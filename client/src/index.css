@@ -10,4 +10,72 @@
   body {
     @apply font-sans antialiased bg-background text-foreground;
   }
+  
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-background/50;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/50 rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/70;
+  }
+}
+
+@layer components {
+  .glass-morphism {
+    @apply backdrop-blur-md bg-white/80 dark:bg-gray-900/80 border border-white/20 dark:border-gray-800/20 shadow-lg;
+  }
+  
+  .message-bubble {
+    @apply rounded-2xl p-3 max-w-[80%] break-words shadow-sm relative;
+  }
+  
+  .message-bubble-sent {
+    @apply message-bubble bg-primary/90 text-primary-foreground ml-auto;
+  }
+  
+  .message-bubble-received {
+    @apply message-bubble bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 mr-auto;
+  }
+  
+  .status-card {
+    @apply relative overflow-hidden rounded-2xl shadow-md transition-all duration-300 hover:shadow-xl cursor-pointer;
+  }
+  
+  .status-card-sponsor {
+    @apply status-card border-2 border-amber-400 dark:border-amber-600;
+  }
+  
+  .status-view-count {
+    @apply absolute bottom-2 right-2 bg-black/70 text-white text-xs font-medium px-2 py-1 rounded-full flex items-center gap-1;
+  }
+  
+  .avatar-online::after {
+    content: '';
+    @apply absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 border-2 border-white dark:border-gray-900;
+  }
+  
+  .floating-action-button {
+    @apply fixed bottom-6 right-6 h-14 w-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors;
+  }
+  
+  .nav-item {
+    @apply flex items-center gap-2 p-2 rounded-md hover:bg-primary/10 transition-colors cursor-pointer;
+  }
+  
+  .nav-item-active {
+    @apply nav-item bg-primary/20;
+  }
+  
+  .footer-link {
+    @apply flex flex-col items-center gap-1 text-xs font-medium text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors duration-200;
+  }
 }

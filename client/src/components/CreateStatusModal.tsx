@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
 import { useAuth } from '@/lib/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
+import { Eye, TrendingUp, User, Link as LinkIcon } from 'lucide-react';
 
 interface CreateStatusModalProps {
   isOpen: boolean;
@@ -23,6 +26,9 @@ const CreateStatusModal: React.FC<CreateStatusModalProps> = ({ isOpen, onClose }
   const [contentType, setContentType] = useState<'image' | 'text'>('image');
   const [textContent, setTextContent] = useState('');
   const [isDragging, setIsDragging] = useState(false);
+  const [isSponsor, setIsSponsor] = useState(false);
+  const [targetAudience, setTargetAudience] = useState('all');
+  const [externalLink, setExternalLink] = useState('');
   
   // Create status mutation
   const createStatusMutation = useMutation({
@@ -43,7 +49,10 @@ const CreateStatusModal: React.FC<CreateStatusModalProps> = ({ isOpen, onClose }
         userId: userProfile.id,
         content,
         contentType,
-        caption: caption.trim() || undefined
+        caption: caption.trim() || undefined,
+        isSponsor,
+        targetAudience: isSponsor ? targetAudience : 'all',
+        externalLink: isSponsor && externalLink ? externalLink : undefined
       };
       
       return apiRequest('POST', '/api/statuses', statusData);
@@ -211,6 +220,63 @@ const CreateStatusModal: React.FC<CreateStatusModalProps> = ({ isOpen, onClose }
               className="w-full p-2 border border-netgray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
               placeholder="Type a caption..."
             />
+          </div>
+          
+          <div className="space-y-3 rounded-lg bg-amber-50 dark:bg-amber-950/20 p-3 border border-amber-200 dark:border-amber-800">
+            <div className="flex items-center space-x-2">
+              <Checkbox 
+                id="isSponsor" 
+                checked={isSponsor}
+                onCheckedChange={(checked) => setIsSponsor(checked as boolean)}
+              />
+              <Label
+                htmlFor="isSponsor"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center"
+              >
+                <TrendingUp className="h-4 w-4 mr-1 text-amber-600" />
+                Post as Sponsored Advertisement
+              </Label>
+            </div>
+            
+            {isSponsor && (
+              <div className="space-y-2 pl-6">
+                <div className="grid grid-cols-1 gap-1">
+                  <Label htmlFor="externalLink" className="text-xs">
+                    <LinkIcon className="h-3 w-3 inline mr-1" />
+                    External Link (optional)
+                  </Label>
+                  <Input
+                    id="externalLink"
+                    value={externalLink}
+                    onChange={(e) => setExternalLink(e.target.value)}
+                    placeholder="https://example.com"
+                    className="text-xs h-8"
+                  />
+                </div>
+                
+                <div className="grid grid-cols-1 gap-1">
+                  <Label htmlFor="targetAudience" className="text-xs">
+                    <User className="h-3 w-3 inline mr-1" />
+                    Target Audience
+                  </Label>
+                  <select
+                    id="targetAudience"
+                    value={targetAudience}
+                    onChange={(e) => setTargetAudience(e.target.value)}
+                    className="h-8 text-xs rounded-md border border-netgray-300 bg-transparent px-3 py-1"
+                  >
+                    <option value="all">Everyone</option>
+                    <option value="followers">My Contacts Only</option>
+                    <option value="groups">Group Members Only</option>
+                  </select>
+                </div>
+                
+                <div className="flex items-center text-xs text-amber-600">
+                  <Eye className="h-3 w-3 mr-1" />
+                  Sponsored statuses track view counts
+                </div>
+              </div>
+            )}
           </div>
           
           <div className="text-sm text-netgray-500">
