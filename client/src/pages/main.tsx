@@ -14,7 +14,7 @@ import { ChatItem, Status } from '@/types';
 // Welcome screen component shown when no chat is selected
 const WelcomeScreen: React.FC = () => {
   return (
-    <div className="hidden md:flex flex-col flex-1 items-center justify-center bg-netgray-100">
+    <div className="hidden md:flex flex-col flex-1 items-center justify-center bg-white">
       <div className="text-center p-8">
         <div className="h-32 w-32 rounded-full bg-[#25d366] flex items-center justify-center mx-auto mb-6">
           <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-20 w-20 text-white">
@@ -164,7 +164,7 @@ const MainPage: React.FC = () => {
   // Show loading screen while checking auth
   if (loading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-netgray-100">
+      <div className="h-screen flex items-center justify-center bg-white">
         <div className="text-center">
           <div className="animate-spin h-8 w-8 border-4 border-[#25d366] border-t-transparent rounded-full mx-auto mb-4"></div>
           <p className="text-black">Loading...</p>
@@ -227,7 +227,7 @@ const MainPage: React.FC = () => {
         
         {/* Right Content - Chat */}
         {showChatView && selectedChatId && (
-          <div className={`${showChatView ? 'block' : 'hidden'} md:flex flex-col flex-1 bg-netgray-100`}>
+          <div className={`${showChatView ? 'block' : 'hidden'} md:flex flex-col flex-1 bg-white`}>
             <ChatView
               chatId={selectedChatId}
               onBackClick={handleBackToList}

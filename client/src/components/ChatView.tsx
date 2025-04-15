@@ -152,12 +152,11 @@ const ChatView: React.FC<ChatViewProps> = ({ chatId, onBackClick, chatData }) =>
         </div>
       </div>
       
-      {/* Chat Messages with WhatsApp-style background */}
+      {/* Chat Messages with white background */}
       <div 
         className="flex-1 overflow-y-auto p-3"
         style={{ 
-          backgroundImage: `url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAAM1BMVEXr6+vq6urp6enn5+fk5OTo6Ojg4ODm5ubj4+Ph4eHl5eXi4uLf39/e3t7d3d3c3Nzb29vmvV3oAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAANUlEQVQYlWNgoAJgZGRiYmJmYWVj5+Dk4ubh5eMXEBQSFhEVE5eQlJKWkZWTV1BUUlahFMoAOkACGGPSPyYAAAAASUVORK5CYII=")`,
-          backgroundColor: '#e5ddd5',
+          backgroundColor: '#ffffff',
         }}
       >
         {isLoading ? (
