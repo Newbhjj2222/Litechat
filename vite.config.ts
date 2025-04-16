@@ -4,7 +4,10 @@ import themePlugin from "@replit/vite-plugin-shadcn-theme-json";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
-export default defineConfig({
+const base = '/Litechat/'; // Hindura aha ukoreshe izina rya repo yawe
+
+export default defineConfig(async () => ({
+  base,
   plugins: [
     react(),
     runtimeErrorOverlay(),
@@ -30,4 +33,4 @@ export default defineConfig({
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
   },
-});
+}));
